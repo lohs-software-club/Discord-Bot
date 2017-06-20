@@ -1,13 +1,12 @@
 package Commands;
 
+import Utils.Credentials;
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitHub;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class GitHubCommand implements CommandExecutor {
@@ -24,12 +23,7 @@ public class GitHubCommand implements CommandExecutor {
             // Read in login credential
             String OAuthToken = "";
             try {
-                FileReader fr = new FileReader("credential.txt");
-                BufferedReader br = new BufferedReader(fr);
-                br.readLine();
-                OAuthToken = br.readLine();
-
-                GitHub gh = GitHub.connectUsingOAuth(OAuthToken);
+                GitHub gh = GitHub.connectUsingOAuth(Credentials.ghToken);
                 GHOrganization loSoftwareClub = gh.getOrganization("lohs-software-club");
 
                 GHUser user = gh.getUser(username[0]);
