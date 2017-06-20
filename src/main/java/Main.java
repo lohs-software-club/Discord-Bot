@@ -1,3 +1,4 @@
+import Commands.GitHubCommand;
 import Commands.RemoveCommand;
 import Commands.RoleCommand;
 import de.btobastian.sdcf4j.CommandHandler;
@@ -6,8 +7,9 @@ import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
 import sx.blah.discord.util.DiscordException;
-import java.io.FileReader;
+
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 import static java.lang.System.exit;
@@ -41,6 +43,7 @@ public class Main {
         handler.setDefaultPrefix(".");
         handler.registerCommand(new RoleCommand());
         handler.registerCommand(new RemoveCommand());
+        handler.registerCommand(new GitHubCommand());
 
     }
 
