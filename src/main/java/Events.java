@@ -1,5 +1,6 @@
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
+import sx.blah.discord.handle.obj.Status;
 
 /**
  * Sets bots playing text to
@@ -7,6 +8,6 @@ import sx.blah.discord.handle.impl.events.ReadyEvent;
 public class Events {
     @EventSubscriber
     public void onReadyEvent(ReadyEvent event) {
-        event.getClient().changePlayingText("with code.");
+        event.getClient().changeStatus(Status.game("with code."));  // Fun message to show bot is online and working.
     }
 }

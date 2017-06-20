@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/loclubbot.iml" filepath="$PROJECT_DIR$/.idea/modules/loclubbot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/loclubbot_main.iml" filepath="$PROJECT_DIR$/.idea/modules/loclubbot_main.iml" group="loclubbot" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/loclubbot_test.iml" filepath="$PROJECT_DIR$/.idea/modules/loclubbot_test.iml" group="loclubbot" />
+    </modules>
+  </component>
+</project>

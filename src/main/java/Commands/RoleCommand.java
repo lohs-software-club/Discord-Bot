@@ -2,65 +2,89 @@ package Commands;
 
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class RoleCommand implements CommandExecutor {
 
     private IGuild guild;
 
-    @Command(aliases = {"role", "developer", "add"})
-    public String onRoleCommand(IGuild guild, IUser user, String[] roles) {
+    @Command(aliases = { "role", "develop", "add" })
+    public String onRoleCommand(IGuild guild, IChannel channel, IUser user, IMessage message, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
+
+        channel.setTypingStatus(true);  // Give feedback to user that bot is working
+        message.delete();   // Message no longer needed, delete message.
 
         this.guild = guild;
 
         // Making sure user is verified
         if (user.getRolesForGuild(guild).contains(getRole("Verified Member"))) {
 
+            StringBuilder addedRolesBuilder = new StringBuilder(" roles successfully added for user " + user.getDisplayName(guild) + "**:");
+            int numAddedRoles = 0;
+
             for (String mRole : roles) {
                 String role = mRole.toLowerCase();
+                numAddedRoles++;
 
                 switch (role) {
                     case "java":
                         user.addRole(getRole("Java"));
+                        addedRolesBuilder.append(" Java");
                         break;
                     case "swift":
                         user.addRole(getRole("Swift"));
+                        addedRolesBuilder.append(" Swift");
                         break;
                     case "javascript":
                     case "js":
                         user.addRole(getRole("Javascript"));
+                        addedRolesBuilder.append(" Javascript");
                         break;
                     case "c++":
                         user.addRole(getRole("C++"));
+                        addedRolesBuilder.append(" C++");
                         break;
                     case "c#":
                         user.addRole(getRole("C#"));
+                        addedRolesBuilder.append(" C#");
                         break;
                     case "python":
                         user.addRole(getRole("Python"));
+                        addedRolesBuilder.append(" Python");
                         break;
                     case "web":
                         user.addRole(getRole("Web"));
+                        addedRolesBuilder.append(" Web");
                         break;
                     case "vcs":
                         user.addRole(getRole("VCS"));
+                        addedRolesBuilder.append(" VCS");
                         break;
                     case "kotlin":
                         user.addRole(getRole("Kotlin"));
+                        addedRolesBuilder.append(" Kotlin");
+                        break;
+                    case "security":
+                        user.addRole(getRole("Security"));
+                        addedRolesBuilder.append(" Security");
                         break;
                     default:
-                        return "Invalid role!";
+                        channel.setTypingStatus(false);  // Give feedback to user that bot is done
+                        return "Invalid role: " + role;
                 }
-                return "Role successfully added!";
             }
 
+            // Done looping through selected roles, add them now.
+            channel.setTypingStatus(false);  // Give feedback to user that bot is done
+            return addedRolesBuilder.insert(0, "**" + numAddedRoles).toString();
+
         } else {
+            channel.setTypingStatus(false);  // Give feedback to user that bot is done
             return "You must be a verified member!";
         }
-
-        return "";
     }
 
     private IRole getRole(String roleName) {
