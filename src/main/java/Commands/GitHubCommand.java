@@ -15,8 +15,8 @@ public class GitHubCommand implements CommandExecutor {
     public String onGithubCommand(String[] username) {
 
         // Checking if too many usernames are entered
-        if (username.length > 1) {
-            return "Too many arguments! Please only enter one GitHub username.";
+        if (username.length > 1 || username.length < 1) {
+            return "Incorrect number of arguments! Please only enter one GitHub username.";
         } else {
             // One potential GH username entered. Check if user actually exists.
 
