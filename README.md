@@ -1,2 +1,2 @@
 # LOClubBot
-To use the bot, make a filed called `credential.txt` and put your bot's login token in that file. Then run the bot
+To use the bot, put your bot's login token in the `src/main/java/Utils/Credentials.java` file. Then run the bot
