@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;

@@ -1,6 +1,6 @@
-package Commands;
+package commands;
 
-import Utils.Credentials;
+import utils.Credentials;
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
 import org.kohsuke.github.GHOrganization;

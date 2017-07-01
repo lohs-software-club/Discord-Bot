@@ -1,7 +1,7 @@
-import Commands.GitHubCommand;
-import Commands.RemoveCommand;
-import Commands.RoleCommand;
-import Utils.Credentials;
+import commands.GitHubCommand;
+import commands.RemoveCommand;
+import commands.RoleCommand;
+import utils.Credentials;
 import de.btobastian.sdcf4j.CommandHandler;
 import de.btobastian.sdcf4j.handler.Discord4JHandler;
 import sx.blah.discord.api.ClientBuilder;

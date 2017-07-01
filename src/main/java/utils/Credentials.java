@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 public class Credentials {
     public static String discordToken = "";  // Enter Discord Token Here

@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
@@ -7,11 +7,11 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
-public class RoleCommand extends Commands  implements CommandExecutor {
+public class RemoveCommand extends Commands  implements CommandExecutor {
 
     private IGuild guild;
 
-    @Command(aliases = { "role", "develop", "add" })
+    @Command(aliases = { "remove", "undevelop" })
     public String onRoleCommand(IGuild guild, IChannel channel, IUser user, IMessage message, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
         channel.setTypingStatus(true);  // Give feedback to user that bot is working
@@ -21,9 +21,8 @@ public class RoleCommand extends Commands  implements CommandExecutor {
         // Making sure user is verified
         if (user.getRolesForGuild(guild).contains(getRole("Verified Member"))) {
 
-            StringBuilder addedRolesBuilder = new StringBuilder(" roles successfully added for user " + user.getDisplayName(guild) + "**:");
+            StringBuilder addedRolesBuilder = new StringBuilder(" roles successfully removed for user " + user.getDisplayName(guild) + "**:");
             int numAddedRoles = 0;
-
 
             for (String mRole : roles) {
                 String role = mRole.toLowerCase();
@@ -31,44 +30,44 @@ public class RoleCommand extends Commands  implements CommandExecutor {
 
                 switch (role) {
                     case "java":
-                        user.addRole(getRole("Java"));
+                        user.removeRole(getRole("Java"));
                         addedRolesBuilder.append(" Java");
                         break;
                     case "swift":
-                        user.addRole(getRole("Swift"));
+                        user.removeRole(getRole("Swift"));
                         addedRolesBuilder.append(" Swift");
                         break;
                     case "javascript":
                     case "js":
-                        user.addRole(getRole("Javascript"));
+                        user.removeRole(getRole("Javascript"));
                         addedRolesBuilder.append(" Javascript");
                         break;
                     case "c++":
-                        user.addRole(getRole("C++"));
+                        user.removeRole(getRole("C++"));
                         addedRolesBuilder.append(" C++");
                         break;
                     case "c#":
-                        user.addRole(getRole("C#"));
+                        user.removeRole(getRole("C#"));
                         addedRolesBuilder.append(" C#");
                         break;
                     case "python":
-                        user.addRole(getRole("Python"));
+                        user.removeRole(getRole("Python"));
                         addedRolesBuilder.append(" Python");
                         break;
                     case "web":
-                        user.addRole(getRole("Web"));
+                        user.removeRole(getRole("Web"));
                         addedRolesBuilder.append(" Web");
                         break;
                     case "vcs":
-                        user.addRole(getRole("VCS"));
+                        user.removeRole(getRole("VCS"));
                         addedRolesBuilder.append(" VCS");
                         break;
                     case "kotlin":
-                        user.addRole(getRole("Kotlin"));
+                        user.removeRole(getRole("Kotlin"));
                         addedRolesBuilder.append(" Kotlin");
                         break;
                     case "security":
-                        user.addRole(getRole("Security"));
+                        user.removeRole(getRole("Security"));
                         addedRolesBuilder.append(" Security");
                         break;
                     default:
@@ -85,8 +84,6 @@ public class RoleCommand extends Commands  implements CommandExecutor {
             done(channel);
             return "You must be a verified member!";
         }
-
-
     }
 
     private IRole getRole(String roleName) {
