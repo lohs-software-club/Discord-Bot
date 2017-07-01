@@ -7,7 +7,7 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
-public class RoleCommand implements CommandExecutor {
+public class RoleCommand extends Commands  implements CommandExecutor {
 
     private IGuild guild;
 
@@ -15,7 +15,6 @@ public class RoleCommand implements CommandExecutor {
     public String onRoleCommand(IGuild guild, IChannel channel, IUser user, IMessage message, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
         channel.setTypingStatus(true);  // Give feedback to user that bot is working
-        message.delete();   // Message no longer needed, delete message.
 
         this.guild = guild;
 
@@ -24,6 +23,7 @@ public class RoleCommand implements CommandExecutor {
 
             StringBuilder addedRolesBuilder = new StringBuilder(" roles successfully added for user " + user.getDisplayName(guild) + "**:");
             int numAddedRoles = 0;
+
 
             for (String mRole : roles) {
                 String role = mRole.toLowerCase();
@@ -72,19 +72,21 @@ public class RoleCommand implements CommandExecutor {
                         addedRolesBuilder.append(" Security");
                         break;
                     default:
-                        channel.setTypingStatus(false);  // Give feedback to user that bot is done
+                        done(channel);
                         return "Invalid role: " + role;
                 }
             }
 
             // Done looping through selected roles, add them now.
-            channel.setTypingStatus(false);  // Give feedback to user that bot is done
+            done(channel);
             return addedRolesBuilder.insert(0, "**" + numAddedRoles).toString();
 
         } else {
-            channel.setTypingStatus(false);  // Give feedback to user that bot is done
+            done(channel);
             return "You must be a verified member!";
         }
+
+
     }
 
     private IRole getRole(String roleName) {
