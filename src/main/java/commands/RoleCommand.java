@@ -77,6 +77,11 @@ public class RoleCommand extends Commands  implements CommandExecutor {
                 }
             }
 
+            if (numAddedRoles == 0) {
+                done(channel);
+                return "Please specify a role to add.";
+            }
+
             // Done looping through selected roles, add them now.
             done(channel);
             return addedRolesBuilder.insert(0, "**" + numAddedRoles).toString();

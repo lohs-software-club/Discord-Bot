@@ -22,11 +22,11 @@ public class RemoveCommand extends Commands  implements CommandExecutor {
         if (user.getRolesForGuild(guild).contains(getRole("Verified Member"))) {
 
             StringBuilder addedRolesBuilder = new StringBuilder(" roles successfully removed for user " + user.getDisplayName(guild) + "**:");
-            int numAddedRoles = 0;
+            int numRemovedRoles = 0;
 
             for (String mRole : roles) {
                 String role = mRole.toLowerCase();
-                numAddedRoles++;
+                numRemovedRoles++;
 
                 switch (role) {
                     case "java":
@@ -76,9 +76,13 @@ public class RemoveCommand extends Commands  implements CommandExecutor {
                 }
             }
 
+            if (numRemovedRoles == 0) {
+                done(channel);
+                return "Please specify a role to remove.";
+            }
             // Done looping through selected roles, add them now.
             done(channel);
-            return addedRolesBuilder.insert(0, "**" + numAddedRoles).toString();
+            return addedRolesBuilder.insert(0, "**" + numRemovedRoles).toString();
 
         } else {
             done(channel);
