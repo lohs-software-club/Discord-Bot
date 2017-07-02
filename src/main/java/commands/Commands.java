@@ -37,7 +37,9 @@ class Commands {
 
                 messages.removeIf(m -> m.getLongID() == id);
 
-                RequestBuffer.request(() -> channel.bulkDelete(messages));
+                if (!messages.isEmpty()) {
+                    RequestBuffer.request(() -> channel.bulkDelete(messages));
+                }
         }, timeInSeconds, TimeUnit.SECONDS);
 
 
