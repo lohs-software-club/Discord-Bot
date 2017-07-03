@@ -8,7 +8,7 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class PingPong extends Commands implements CommandExecutor {
 
-    @Command(aliases = { "ping" })
+    @Command(aliases = { "bug" })
     public String pingCommand(IUser username, IChannel channel, IGuild guild) {
 
         channel.setTypingStatus(true);
@@ -16,7 +16,7 @@ public class PingPong extends Commands implements CommandExecutor {
         System.out.println(username.getDisplayName(guild) + " Sent a Ping.");
 
         end(channel, 5);//cleanup messages as
-        return "Pong!";
+        return "Feature!";
 
 
     }
