@@ -1,13 +1,12 @@
 import commands.GitHubCommand;
-import commands.RemoveCommand;
-import commands.RoleCommand;
-import utils.Credentials;
+import commands.RoleCommands;
 import de.btobastian.sdcf4j.CommandHandler;
 import de.btobastian.sdcf4j.handler.Discord4JHandler;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
 import sx.blah.discord.util.DiscordException;
+import utils.Credentials;
 
 public class Main {
 
@@ -22,8 +21,7 @@ public class Main {
 
         CommandHandler handler = new Discord4JHandler(client);
         handler.setDefaultPrefix(".");
-        handler.registerCommand(new RoleCommand());
-        handler.registerCommand(new RemoveCommand());
+        handler.registerCommand(new RoleCommands());
         handler.registerCommand(new GitHubCommand());
 
     }

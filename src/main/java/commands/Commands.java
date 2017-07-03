@@ -19,11 +19,9 @@ class Commands {
 
     private void clearAllButMessageIDAfterTime( Long id, IChannel channel, Integer timeInSeconds) {
 
+        //ID of #bot-spam intro message 330540361808084992
 
-        //This gets all the messages in the channel that are currently cached. (i.e all the bot has seen since it was booted up.)
-//ID of #bot-spam intro message 330540361808084992
-
-//TODO: make this into a discord message that says something like "this message will self destruct"
+        //TODO: make this into a discord message that says something like "this message will self destruct"
         //System.out.println("WAITING SPECIFIED SECONDS...");
 
 
@@ -53,12 +51,29 @@ class Commands {
         }
     }
 
-    //Give feedback to user that bot is done
-    void done(IChannel channel) {
+    void end(IChannel channel) {
+        end(channel, true);
+    }
+
+    //Give feedback to user that bot is done working
+    void end(IChannel channel, Boolean cleanup) {
         channel.setTypingStatus(false);
 
-        cleanupMessages(channel);
+        if (cleanup == null || cleanup) {
+            cleanupMessages(channel);
+        }
 
+    }
+
+    //Give feedback to user that bot has started working
+    Boolean canStart(IChannel channel) {
+        //if channel is not #bot-spam
+        if (channel != channel.getGuild().getChannelByID(326480795298693131L)/*getChannelsByName("bot-spam")*/) {
+            return false;
+        } else {
+            channel.setTypingStatus(true);
+            return true;
+        }
     }
 
 }

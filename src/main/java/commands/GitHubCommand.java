@@ -12,37 +12,39 @@ import java.io.IOException;
 
 public class GitHubCommand extends Commands implements CommandExecutor {
 
-    @Command(aliases = { "gh", "github", "contribute" })
-    public String onGithubCommand(String[] username, IChannel channel) {
+    @Command(aliases = { "gh", "github" })
+    public String addToGithubCommand(String[] username, IChannel channel) {
 
-        channel.setTypingStatus(true);  // Give feedback to user that bot is working
+        if (!canStart(channel)) {
+            return null;
+        }
 
         // Checking if too many usernames are entered
         if (username.length > 1 || username.length < 1) {
-            return "Incorrect number of arguments! Please only enter one GitHub username at a time.";
+            end(channel);
+            return "Please only enter one GitHub username at a time.";
         } else {
             // One potential GH username entered. Check if user actually exists.
 
-            // Read in login credential
-            String OAuthToken = "";
             try {
                 GitHub gh = GitHub.connectUsingOAuth(Credentials.ghToken);
                 GHOrganization loSoftwareClub = gh.getOrganization("lohs-software-club");
 
                 GHUser user = gh.getUser(username[0]);
                 loSoftwareClub.getTeamByName("Members").add(user);
+
                 if (user.getName() != null) {
-                    done(channel);
-                    return "Successfully added GitHub user " + user.getName() + " to the LOHS GitHub Team";
-
+                    end(channel);
+                    return "Successfully added " + user.getName() + " to the LOHS GitHub Team";
                 } else {
-                    done(channel);
+                    end(channel);
                     return "Successfully added GitHub user " + user.getLogin() + " to the LOHS GitHub Team";
-
                 }
             } catch (IOException e) {
                 System.err.println(e.toString());
-                return "An error occurred \n" + e.toString();
+                System.out.println(e.toString());
+                end(channel, false);
+                return "An Error occurred. Please check the log.";
             }
         }
 
