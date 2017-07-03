@@ -1,4 +1,5 @@
 import commands.GitHubCommand;
+import commands.PingPong;
 import commands.RoleCommands;
 import de.btobastian.sdcf4j.CommandHandler;
 import de.btobastian.sdcf4j.handler.Discord4JHandler;
@@ -21,6 +22,7 @@ public class Main {
 
         CommandHandler handler = new Discord4JHandler(client);
         handler.setDefaultPrefix(".");
+        handler.registerCommand(new PingPong());
         handler.registerCommand(new RoleCommands());
         handler.registerCommand(new GitHubCommand());
 
