@@ -43,7 +43,7 @@ public class GitHubCommand extends Commands implements CommandExecutor {
             } catch (IOException e) {
                 System.err.println(e.toString());
                 System.out.println(e.toString());
-                end(channel, false);
+                end(channel, 0);
                 return "An Error occurred. Please check the log.";
             }
         }

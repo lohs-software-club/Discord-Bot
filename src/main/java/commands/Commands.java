@@ -44,15 +44,15 @@ class Commands {
     }
 
     void end(IChannel channel) {
-        end(channel, true);
+        end(channel, 60);
     }
 
     //Give feedback to user that bot is done working
-    void end(IChannel channel, Boolean cleanup) {
+    void end(IChannel channel, Integer cleanupInterval) {
         channel.setTypingStatus(false);
 
-        if (cleanup == null || cleanup) {
-            clearAllButMessageIDAfterTime(330540361808084992L, channel, 60);
+        if (cleanupInterval > 0) {
+            clearAllButMessageIDAfterTime(330540361808084992L, channel, cleanupInterval);
         }
 
     }
