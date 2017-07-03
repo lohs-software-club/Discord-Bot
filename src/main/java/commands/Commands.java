@@ -51,7 +51,7 @@ class Commands {
     void end(IChannel channel, Integer cleanupInterval) {
         channel.setTypingStatus(false);
 
-        if (cleanupInterval > 0) {
+        if (cleanupInterval > 0 && channel == channel.getGuild().getChannelByID(326480795298693131L)) {
             clearAllButMessageIDAfterTime(330540361808084992L, channel, cleanupInterval);
         }
 
