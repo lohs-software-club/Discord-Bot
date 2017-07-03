@@ -43,14 +43,6 @@ class Commands {
 
     }
 
-    private void cleanupMessages(IChannel channel) {
-        //if channel is #bot-spam
-        if (channel == channel.getGuild().getChannelByID(326480795298693131L)) {
-            //clear all but first message with the given ID
-            clearAllButMessageIDAfterTime(330540361808084992L, channel, 60);
-        }
-    }
-
     void end(IChannel channel) {
         end(channel, true);
     }
@@ -60,7 +52,7 @@ class Commands {
         channel.setTypingStatus(false);
 
         if (cleanup == null || cleanup) {
-            cleanupMessages(channel);
+            clearAllButMessageIDAfterTime(330540361808084992L, channel, 60);
         }
 
     }
