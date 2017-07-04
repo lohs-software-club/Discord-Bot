@@ -85,4 +85,4 @@ crashlytics-build.properties
 fabric.properties
 
 modules/
-/src/main/java/Utils/Credentials.java
+Credentials.java
