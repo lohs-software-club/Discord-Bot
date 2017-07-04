@@ -11,11 +11,11 @@ public class PingPong extends Commands implements CommandExecutor {
     @Command(aliases = { "bug" })
     public String pingCommand(IUser username, IChannel channel, IGuild guild) {
 
-        channel.setTypingStatus(true);
+        start(channel);
 
         System.out.println(username.getDisplayName(guild) + " Sent a Ping.");
 
-        end(channel, 5);//cleanup messages as
+        endWithNoCleanup(channel);
         return "Feature!";
 
 

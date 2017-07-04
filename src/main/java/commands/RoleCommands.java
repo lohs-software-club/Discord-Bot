@@ -17,7 +17,7 @@ public class RoleCommands extends Commands  implements CommandExecutor {
     @Command(aliases = { "subscribe" })
     public String addRoleCommand(IGuild guild, IChannel channel, IUser user, IMessage message, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
-        if (!canStart(channel)) {
+        if (!canStartInBotSpam(channel)) {
             return null;
         }
         this.guild = guild;
@@ -38,22 +38,22 @@ public class RoleCommands extends Commands  implements CommandExecutor {
 
                 }
             } else {
-                end(channel);
+                endWithDefaultCleanup(channel);
                 return "Please specify a role to subscribe to.";
             }
 
 
             if (!rolesSuccessfullyModified.equals("")) {
 
-                end(channel);
+                endWithDefaultCleanup(channel);
                 return "Successfully subscribed to:" + rolesSuccessfullyModified;
             } else {
-                end(channel);
+                endWithDefaultCleanup(channel);
                 return "Please enter a valid role name from the list.";
             }
 
         } else {
-            end(channel);
+            endWithDefaultCleanup(channel);
             return "You must be a verified member!";
         }
 
@@ -63,7 +63,7 @@ public class RoleCommands extends Commands  implements CommandExecutor {
     @Command(aliases = { "unsubscribe" })
     public String removeRoleCommand(IGuild guild, IChannel channel, IUser user, IMessage message, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
-        if (!canStart(channel)) {
+        if (!canStartInBotSpam(channel)) {
             return null;
         }
 
@@ -85,22 +85,22 @@ public class RoleCommands extends Commands  implements CommandExecutor {
 
                 }
             } else {
-                end(channel);
+                endWithDefaultCleanup(channel);
                 return "Please specify a role to unsubscribe from.";
             }
 
 
             if (!rolesSuccessfullyModified.equals("")) {
 
-                end(channel);
+                endWithDefaultCleanup(channel);
                 return "Successfully unsubscribed from:" + rolesSuccessfullyModified;
             } else {
-                end(channel);
+                endWithDefaultCleanup(channel);
                 return "Please enter a valid role name from the list.";
             }
 
         } else {
-            end(channel);
+            endWithDefaultCleanup(channel);
             return "You must be a verified member!";
         }
     }
