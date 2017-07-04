@@ -142,4 +142,25 @@ public class RoleCommands extends Commands  implements CommandExecutor {
         }
         return rolesSucessfullyModified;
     }
+
+
+    @Command(aliases = { "check", "subs" })
+    public String checkSubscriptions(IUser user, IGuild guild, IChannel channel, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
+
+        String rolesSubbedTo = "";
+
+        for (IRole role : user.getRolesForGuild(guild)) {
+
+            //if first character of role name begins with *,
+            if (role.getName().substring(0, 1).equals("*")) {
+
+                rolesSubbedTo += " **" + role.getName().substring(1) + "**\r\n";
+            }
+        }
+
+        //channel.sendMessage("lalala");
+
+        return "Hello " + user.getDisplayName(guild) + ". You are subscribed the following notification groups:\r\n" + rolesSubbedTo;
+    }
+
 }
