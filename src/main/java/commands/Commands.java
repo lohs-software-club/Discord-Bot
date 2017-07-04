@@ -8,6 +8,7 @@ import sx.blah.discord.util.RequestBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
@@ -16,6 +17,8 @@ import java.util.concurrent.TimeUnit;
  * these methods apply to all commands
  */
 class Commands {
+
+    private List<ScheduledExecutorService> runningExecutors = new ArrayList<>();
 
     private void clearAllButWelcomeMessageInBotSpamChannelAfter(IChannel currentChannel, Integer timeInSeconds) {
         clearAllButMessageIDInChannelAfterTime(
@@ -32,11 +35,29 @@ class Commands {
         //TODO: make this into a discord message that says something like "this message will self destruct"
         //System.out.println("WAITING SPECIFIED SECONDS...");
 
-        //don't delete stuff if you aren't in the channel specified for clearing
+        //don't do anything if you aren't in the channel specified for clearing
         if (currentChannel == channelToClear) {
 
-            Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+            //if list of executors isnt empty
+            if (!runningExecutors.isEmpty()) {
+                System.out.println("Shutting down executors");
 
+                //loop through and shut them all down
+                for (ScheduledExecutorService item : runningExecutors) {
+
+                    item.shutdown();
+                }
+            }
+
+            ScheduledExecutorService newSES = Executors.newSingleThreadScheduledExecutor();
+
+            runningExecutors.add(newSES);
+            System.out.println("making new executor:" + newSES);
+
+            newSES.schedule(() -> {
+
+                runningExecutors.remove(newSES);
+                System.out.println("self-destructing executor:" + newSES);
                 //get the last 25 messages in the channel (as an additional safety measure)
                 List<IMessage> messages = new ArrayList<>(
                         RequestBuffer.request(() -> (MessageHistory) currentChannel.getMessageHistory(25)).get()
@@ -50,8 +71,11 @@ class Commands {
 
                 //delete whats left in the messages list
                 if (!messages.isEmpty()) {
-                    RequestBuffer.request(() -> currentChannel.bulkDelete(messages));
+                    RequestBuffer.request(() -> {currentChannel.bulkDelete(messages);
+                    System.out.println("Nom Nom Nom. Yummy Messages.");
+                    });
                 }
+
             }, timeInSeconds, TimeUnit.SECONDS);
 
         }
