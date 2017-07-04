@@ -20,4 +20,7 @@ public class PingPong extends Commands implements CommandExecutor {
 
 
     }
+
+    @Command(aliases = { "ping" })
+    public String pingCommand() {return "Ping Command has been renamed to `.bug`.";}
 }
