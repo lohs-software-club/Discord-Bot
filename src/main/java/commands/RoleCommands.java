@@ -33,7 +33,7 @@ public class RoleCommands extends Commands  implements CommandExecutor {
                 for (String mRole : roles) {
                     String role = mRole.toLowerCase();
 
-                    rolesSuccessfullyModified = parseRoles(false, role, user);
+                    rolesSuccessfullyModified += parseRoles(false, role, user);
 
 
                 }
@@ -80,7 +80,7 @@ public class RoleCommands extends Commands  implements CommandExecutor {
                 for (String mRole : roles) {
                     String role = mRole.toLowerCase();
 
-                    rolesSuccessfullyModified = parseRoles(true, role, user);
+                    rolesSuccessfullyModified += parseRoles(true, role, user);
 
 
                 }
