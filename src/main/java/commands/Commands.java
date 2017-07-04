@@ -1,7 +1,9 @@
 package commands;
 
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.util.MessageHistory;
 import sx.blah.discord.util.RequestBuffer;
 
@@ -40,7 +42,7 @@ class Commands {
 
             //if list of executors isnt empty
             if (!runningExecutors.isEmpty()) {
-                System.out.println("Shutting down executors");
+                System.out.println("Shutting down open executors");
 
                 //loop through and shut them all down
                 for (ScheduledExecutorService item : runningExecutors) {
@@ -57,10 +59,10 @@ class Commands {
             newSES.schedule(() -> {
 
                 runningExecutors.remove(newSES);
-                System.out.println("self-destructing executor:" + newSES);
-                //get the last 25 messages in the channel (as an additional safety measure)
+                System.out.println("completing executor:" + newSES);
+                //get the last 50 messages in the channel (as an additional safety measure)
                 List<IMessage> messages = new ArrayList<>(
-                        RequestBuffer.request(() -> (MessageHistory) currentChannel.getMessageHistory(25)).get()
+                        RequestBuffer.request(() -> (MessageHistory) currentChannel.getMessageHistory(50)).get()
                 );
 
                 // USE THIS TO GET THE ID OF THE FIRST MESSAGE IN THE CHANNEL IF YOU NEED TO CHANGE THE ID
@@ -118,5 +120,24 @@ class Commands {
         }
 
     }
+
+
+    List<IRole> getSubscribeableRolesList(IGuild guild) {
+
+        List<IRole> subscribedRolesList = new ArrayList<>();
+
+        for (IRole role : guild.getRoles()) {
+
+            //if last character of role name is *,
+            if (role.getName().substring(role.getName().length() - 1).equals("*")) {
+
+                subscribedRolesList.add(role);
+
+            }
+        }
+
+        return subscribedRolesList;
+    }
+
 
 }

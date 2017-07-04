@@ -120,24 +120,23 @@ public class RoleCommands extends Commands  implements CommandExecutor {
         List<IRole> roleList = guild.getRoles();
         String rolesSucessfullyModified = "";
 
+        List<IRole> subscribeableRoles = getSubscribeableRolesList(guild);
+
         //remove roles from the list if they dont begin with the * character
        // roleList.removeIf(m -> !(m.getName().substring(0,1) == "*"));
 
         //for every role on the server
 
-        for (IRole aRoleList : roleList) {
+        for (IRole aRole : roleList) {
 
-            //if first character of role name begins with *,
-            if (aRoleList.getName().substring(0, 1).equals("*")) {
-                //if role name  matches user input, add or delete the role from the user and append to the success message
-                if (aRoleList.getName().toLowerCase().substring(1).equals(role)) {
+            //if the role is a valid subscription role and the name matches the user input
+            if (subscribeableRoles.contains(aRole) && aRole.getName().toLowerCase().substring(1).equals(role)) {
 
-                    if (deleteRole) {RequestBuffer.request(() -> user.removeRole(aRoleList));}
-                    else RequestBuffer.request(() -> user.addRole(aRoleList));
+                    if (deleteRole) {RequestBuffer.request(() -> user.removeRole(aRole));}
+                    else RequestBuffer.request(() -> user.addRole(aRole));
 
-                    rolesSucessfullyModified = rolesSucessfullyModified + " **" + aRoleList.getName().substring(1) + "**";
+                    rolesSucessfullyModified = rolesSucessfullyModified + " **" + aRole.getName().substring(1) + "**";
 
-                }
             }
         }
         return rolesSucessfullyModified;
@@ -148,13 +147,14 @@ public class RoleCommands extends Commands  implements CommandExecutor {
     public String checkSubscriptions(IUser user, IGuild guild, IChannel channel, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
         String rolesSubbedTo = "";
+        List<IRole> subscribeableRoles = getSubscribeableRolesList(guild);
 
-        for (IRole role : user.getRolesForGuild(guild)) {
+        for (IRole aRole : user.getRolesForGuild(guild)) {
 
-            //if first character of role name begins with *,
-            if (role.getName().substring(0, 1).equals("*")) {
+            //if the role is a valid subscription role
+            if (subscribeableRoles.contains(aRole)) {
 
-                rolesSubbedTo += " **" + role.getName().substring(1) + "**\r\n";
+                rolesSubbedTo += " **" + aRole.getName().substring(1) + "**\r\n";
             }
         }
 
