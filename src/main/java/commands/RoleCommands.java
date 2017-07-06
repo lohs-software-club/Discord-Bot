@@ -130,12 +130,12 @@ public class RoleCommands extends Commands  implements CommandExecutor {
         for (IRole aRole : roleList) {
 
             //if the role is a valid subscription role and the name matches the user input
-            if (subscribeableRoles.contains(aRole) && aRole.getName().toLowerCase().substring(1).equals(role)) {
+            if (subscribeableRoles.contains(aRole) && aRole.getName().toLowerCase().substring(0, aRole.getName().length() - 1).equals(role)) {
 
                     if (deleteRole) {RequestBuffer.request(() -> user.removeRole(aRole));}
                     else RequestBuffer.request(() -> user.addRole(aRole));
 
-                    rolesSucessfullyModified = rolesSucessfullyModified + " **" + aRole.getName().substring(1) + "**";
+                    rolesSucessfullyModified = rolesSucessfullyModified + " **" + aRole.getName().substring(0, aRole.getName().length() - 1) + "**";
 
             }
         }
@@ -146,6 +146,10 @@ public class RoleCommands extends Commands  implements CommandExecutor {
     @Command(aliases = { "check", "subs" })
     public String checkSubscriptions(IUser user, IGuild guild, IChannel channel, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
+        if (!canStartInBotSpam(channel)) {
+            return null;
+        }
+
         String rolesSubbedTo = "";
         List<IRole> subscribeableRoles = getSubscribeableRolesList(guild);
 
@@ -154,12 +158,13 @@ public class RoleCommands extends Commands  implements CommandExecutor {
             //if the role is a valid subscription role
             if (subscribeableRoles.contains(aRole)) {
 
-                rolesSubbedTo += " **" + aRole.getName().substring(1) + "**\r\n";
+                rolesSubbedTo += " **" + aRole.getName().substring(0, aRole.getName().length() - 1) + "**\r\n";
             }
         }
 
         //channel.sendMessage("lalala");
 
+        endWithDefaultCleanup(channel);
         return "Hello " + user.getDisplayName(guild) + ". You are subscribed the following notification groups:\r\n" + rolesSubbedTo;
     }
 
