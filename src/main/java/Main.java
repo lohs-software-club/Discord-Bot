@@ -1,3 +1,4 @@
+import commands.ClearCommand;
 import commands.GitHubCommand;
 import commands.PingPong;
 import commands.RoleCommands;
@@ -25,6 +26,7 @@ public class Main {
         handler.registerCommand(new PingPong());
         handler.registerCommand(new RoleCommands());
         handler.registerCommand(new GitHubCommand());
+        handler.registerCommand(new ClearCommand());
 
     }
 
