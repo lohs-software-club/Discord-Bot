@@ -1,6 +1,12 @@
 package utils;
 
 public class Credentials {
-    public static String discordToken = "";  // Enter Discord Token Here
-    public static String ghToken = "";                          // Enter GitHub Personal Access Token Here
+    public static String ghToken = "";
+
+    public static void setGhToken(String token) {
+        ghToken = token;
+    }
+    public static String getGhToken() {
+        return ghToken;
+    }
 }

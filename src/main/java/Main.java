@@ -14,19 +14,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Logging in client
-        IDiscordClient client = createClient(Credentials.discordToken);
+        try {
+            String discordToken = args[0];
+            // Logging in client
+            IDiscordClient client = createClient(discordToken);
 
-        // Setting Events listener
-        EventDispatcher dispatcher = client.getDispatcher();
-        dispatcher.registerListener(new Events());
+            Credentials.setGhToken(args[1]);
 
-        CommandHandler handler = new Discord4JHandler(client);
-        handler.setDefaultPrefix(".");
-        handler.registerCommand(new PingPong());
-        handler.registerCommand(new RoleCommands());
-        handler.registerCommand(new GitHubCommand());
-        handler.registerCommand(new ClearCommand());
+            // Setting Events listener
+            EventDispatcher dispatcher = client.getDispatcher();
+            dispatcher.registerListener(new Events());
+
+            CommandHandler handler = new Discord4JHandler(client);
+            handler.setDefaultPrefix(".");
+            handler.registerCommand(new PingPong());
+            handler.registerCommand(new RoleCommands());
+            handler.registerCommand(new GitHubCommand());
+            handler.registerCommand(new ClearCommand());
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Invalid Tokens");
+        }
 
     }
 

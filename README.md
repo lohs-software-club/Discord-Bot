@@ -1,5 +1,8 @@
 # LOClubBot
-To use the bot, put your bot's login token in the `src/main/java/utils/Credentials.java` file. Then run the bot
+To use the bot, append the credrntials when running the jar.
+i.e.
+```
+java -jar loclubbot.jar [Discord bot token] [Github personal access token]
 
 
 current version numbering scheme: Whatever the heck @DeveloperACE feels like doing. AKA not Semantic Versioning.

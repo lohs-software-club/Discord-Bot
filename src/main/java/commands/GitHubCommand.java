@@ -1,12 +1,12 @@
 package commands;
 
-import utils.Credentials;
 import de.btobastian.sdcf4j.Command;
 import de.btobastian.sdcf4j.CommandExecutor;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitHub;
 import sx.blah.discord.handle.obj.IChannel;
+import utils.Credentials;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class GitHubCommand extends Commands implements CommandExecutor {
             // One potential GH username entered. Check if user actually exists.
 
             try {
-                GitHub gh =  GitHub.connect(Credentials.ghClientID, Credentials.ghClientSecret);
+                GitHub gh =  GitHub.connectUsingOAuth(Credentials.getGhToken());
 
                 GHOrganization loSoftwareClub = gh.getOrganization("lohs-software-club");
 
