@@ -23,8 +23,13 @@ class Commands {
     private List<ScheduledExecutorService> runningExecutors = new ArrayList<>();
 
     private void clearAllButWelcomeMessageInBotSpamChannelAfter(IChannel currentChannel, Integer timeInSeconds) {
+
+        List<IMessage> messages = new ArrayList<>(
+                RequestBuffer.request(() -> (MessageHistory) currentChannel.getMessageHistory(50)).get()
+        );
+
         clearAllButMessageIDInChannelAfterTime(
-                330540361808084992L,
+                messages.get(messages.size()-1).getLongID(),//get first message in list
                 currentChannel,
                 currentChannel.getGuild().getChannelByID(326480795298693131L),
                 timeInSeconds
