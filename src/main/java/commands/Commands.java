@@ -115,7 +115,7 @@ class Commands {
         currentChannel.setTypingStatus(false);
 
         //if there is a cleanup interval greater than 0, then clean up.
-        if (cleanupInterval > 0) {
+        if (cleanupInterval >= 0) {
             clearAllButWelcomeMessageInBotSpamChannelAfter(currentChannel, cleanupInterval);
         }
 
