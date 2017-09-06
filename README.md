@@ -1,5 +1,5 @@
 # LOClubBot
-To use the bot, append the credrntials when running the jar.
+To use the bot, append the credentials when running the jar.
 i.e.
 ```
 java -jar loclubbot.jar [Discord bot token] [Github personal access token]
