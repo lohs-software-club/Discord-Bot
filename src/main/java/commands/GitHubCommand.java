@@ -15,7 +15,7 @@ public class GitHubCommand extends Commands implements CommandExecutor {
     @Command(aliases = { "gh", "github" })
     public String addToGithubCommand(String[] username, IChannel channel) {
 
-        if (!canStartInBotSpam(channel)) {
+        if (!isInBotSpam(channel)) {
             return null;
         }
 

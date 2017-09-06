@@ -89,13 +89,13 @@ class Commands {
     }
 
     //use this for commands that should be limited to only #bot-spam channel
-    Boolean canStartInBotSpam(IChannel channel) {
+    Boolean isInBotSpam(IChannel channel) {
         //if channel is not #bot-spam, get the bot to just not respond.
-        if (channel != channel.getGuild().getChannelByID(326480795298693131L)) {
-            return false;
+        if (channel != channel.getGuild().getChannelsByName("bot-spam")) {
+            return true;
         } else {
             start(channel);
-            return true;
+            return false;
         }
     }
 

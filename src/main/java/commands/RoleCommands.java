@@ -17,7 +17,7 @@ public class RoleCommands extends Commands  implements CommandExecutor {
     @Command(aliases = { "subscribe", "sub" })
     public String addRoleCommand(IGuild guild, IChannel channel, IUser user, IMessage message, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
-        if (!canStartInBotSpam(channel)) {
+        if (!isInBotSpam(channel)) {
             return null;
         }
         this.guild = guild;
@@ -63,7 +63,7 @@ public class RoleCommands extends Commands  implements CommandExecutor {
     @Command(aliases = { "unsubscribe", "unsub" })
     public String removeRoleCommand(IGuild guild, IChannel channel, IUser user, IMessage message, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
-        if (!canStartInBotSpam(channel)) {
+        if (!isInBotSpam(channel)) {
             return null;
         }
 
@@ -146,7 +146,7 @@ public class RoleCommands extends Commands  implements CommandExecutor {
     @Command(aliases = { "check", "subs" })
     public String checkSubscriptions(IUser user, IGuild guild, IChannel channel, String[] roles) throws RateLimitException, DiscordException, MissingPermissionsException {
 
-        if (!canStartInBotSpam(channel)) {
+        if (!isInBotSpam(channel)) {
             return null;
         }
 

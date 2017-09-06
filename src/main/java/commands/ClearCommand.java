@@ -9,7 +9,7 @@ public class ClearCommand extends Commands implements CommandExecutor {
     @Command(aliases = { "clear" })
     public String clearChat(IChannel channel) {
 
-        if (!canStartInBotSpam(channel)) {
+        if (!isInBotSpam(channel)) {
             return null;
         }
 
