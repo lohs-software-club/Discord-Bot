@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class GitHubCommand extends Commands implements CommandExecutor {
 
-    @Command(aliases = { "gh", "github" })
+    @Command(aliases = { "gh", "github" }, async = true)
     public String addToGithubCommand(String[] username, IChannel channel) {
 
         if (!isInBotSpam(channel)) {

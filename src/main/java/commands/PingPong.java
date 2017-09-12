@@ -8,7 +8,7 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class PingPong extends Commands implements CommandExecutor {
 
-    @Command(aliases = { "bug" })
+    @Command(aliases = { "bug" }, async = true)
     public String pingCommand(IUser username, IChannel channel, IGuild guild) {
 
         start(channel);
