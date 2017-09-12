@@ -88,19 +88,22 @@ class Commands {
         }
     }
 
-    //use this for commands that should be limited to only #bot-spam channel
-    Boolean isInBotSpam(IChannel channel) {
-        //if channel is not #bot-spam, get the bot to just not respond.
-        if (channel != getBotSpamChannel(channel.getGuild())) {
-            return true;
-        } else {
-            start(channel);
-            return false;
-        }
+    boolean checkChannel(IChannel currentChannel, IChannel intendedChannel) {
+
+        List<IChannel> intendedChannelList = new ArrayList();
+
+        intendedChannelList.add(intendedChannel);
+
+        return checkChannel(currentChannel, intendedChannelList);
     }
 
-    IChannel getBotSpamChannel(IGuild guild) {
-        return guild.getChannelsByName("bot-spam").get(0);
+    boolean checkChannel(IChannel currentChannel, List<IChannel> intendedChannel) {
+
+        if (intendedChannel.contains(currentChannel)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //Give feedback to user that bot has started working
