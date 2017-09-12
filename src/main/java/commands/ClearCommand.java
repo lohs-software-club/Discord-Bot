@@ -16,8 +16,8 @@ public class ClearCommand extends Commands implements CommandExecutor {
             return null;
         }
 
-        endWithNoCleanup(channel);
-        return null;
+        endWithSmallCleanup(channel);
+        return "";
 
 
     }

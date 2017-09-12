@@ -23,19 +23,50 @@ class Commands {
 
     private List<ScheduledExecutorService> runningExecutors = new ArrayList<>();
 
-    private void clearAllButWelcomeMessageInBotSpamChannelAfter(IChannel currentChannel, Integer timeInSeconds) {
+    //THESE ALL FORCE BOT TO BE IN #bot-spam
 
-        List<IMessage> messages = new ArrayList<>(
-                RequestBuffer.request(() -> (MessageHistory) currentChannel.getMessageHistory(50)).get()
-        );
 
-        clearAllButMessageIDInChannelAfterTime(
-                messages.get(messages.size()-1).getLongID(),//get first message in list
-                currentChannel,
-                currentChannel.getGuild().getChannelsByName("bot-spam"),
-                timeInSeconds
-        );
+    void endWithNoCleanup(IChannel currentChannel) {
+        endWithSpecifiedCleanup(currentChannel, 0);
     }
+
+    void endWithSmallCleanup(IChannel currentChannel) {
+        endWithSpecifiedCleanup(currentChannel, 10);
+    }
+
+
+    //set a default value for the cleanup time for convenience
+    void endWithDefaultCleanup(IChannel currentChannel) {
+        endWithSpecifiedCleanup(currentChannel, 60);
+    }
+
+
+    //Give feedback to user that bot is done working
+    void endWithSpecifiedCleanup(IChannel currentChannel, Integer cleanupInterval) {
+        currentChannel.setTypingStatus(false);
+
+        //if there is a cleanup interval greater than or equal to 0 and the bot is in bot spam, then clean up.
+        if (cleanupInterval > 0 && checkChannel(currentChannel, currentChannel.getGuild().getChannelsByName("bot-spam"))) {
+          //  System.out.println(currentChannel.getPinnedMessages());
+
+//            List<IMessage> messages = new ArrayList<>(
+//                    RequestBuffer.request(() -> (MessageHistory) currentChannel.getMessageHistory(50)).get()
+//            );
+
+            List<IMessage> pins = currentChannel.getPinnedMessages();
+
+            clearAllButMessageIDInChannelAfterTime(
+                    pins.get(pins.size()-1).getLongID(),//get first pinned message in channel (last in list)
+                    currentChannel,
+                    currentChannel.getGuild().getChannelsByName("bot-spam"),
+                    cleanupInterval
+            );
+        } else {
+            System.out.println("could not clean up in channel:" + currentChannel);
+        }
+
+    }
+
 
     private void clearAllButMessageIDInChannelAfterTime(Long id, IChannel currentChannel, List<IChannel> channelToClear, Integer timeInSeconds) {
 
@@ -49,7 +80,11 @@ class Commands {
         if (checkChannel(currentChannel, channelToClear)) {
 
             //if list of executors isnt empty
+            System.out.println("executor list is empty:" + runningExecutors.isEmpty());
+            System.out.println(runningExecutors);
+
             if (!runningExecutors.isEmpty()) {
+
                 System.out.println("Shutting down open executors...");
 
                 //loop through and shut them all down
@@ -63,8 +98,9 @@ class Commands {
 
             ScheduledExecutorService newSES = Executors.newSingleThreadScheduledExecutor();
 
-            runningExecutors.add(newSES);
-            System.out.println("making new executor:" + newSES);
+            System.out.println(runningExecutors.size());
+
+
 
             newSES.schedule(() -> {
 
@@ -74,9 +110,6 @@ class Commands {
                 List<IMessage> messages = new ArrayList<>(
                         RequestBuffer.request(() -> (MessageHistory) currentChannel.getMessageHistory(50)).get()
                 );
-
-                // USE THIS TO GET THE ID OF THE FIRST MESSAGE IN THE CHANNEL IF YOU NEED TO CHANGE THE ID
-                // System.out.println(messages.get(messages.size()-1).getLongID());
 
                 //delete any messages with the specified ID (preserve welcome message for example)
                 messages.removeIf(m -> m.getLongID() == id);
@@ -89,6 +122,10 @@ class Commands {
                 }
 
             }, timeInSeconds, TimeUnit.SECONDS);
+
+            runningExecutors.add(newSES);
+
+            System.out.println("made new executor:" + newSES);
 
         }
     }
@@ -118,25 +155,7 @@ class Commands {
     }
 
 
-    void endWithNoCleanup(IChannel currentChannel) {
-        endWithSpecifiedCleanup(currentChannel, 0);
-    }
 
-    //set a default value for the cleanup time for convenience
-    void endWithDefaultCleanup(IChannel currentChannel) {
-        endWithSpecifiedCleanup(currentChannel, 60);
-    }
-
-    //Give feedback to user that bot is done working
-    void endWithSpecifiedCleanup(IChannel currentChannel, Integer cleanupInterval) {
-        currentChannel.setTypingStatus(false);
-
-        //if there is a cleanup interval greater than 0, then clean up.
-        if (cleanupInterval >= 0) {
-            clearAllButWelcomeMessageInBotSpamChannelAfter(currentChannel, cleanupInterval);
-        }
-
-    }
 
 
     List<IRole> getSubscribeableRolesList(IGuild guild) {
