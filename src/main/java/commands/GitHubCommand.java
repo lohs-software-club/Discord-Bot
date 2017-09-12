@@ -6,6 +6,7 @@ import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitHub;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import utils.Credentials;
 
 import java.io.IOException;
@@ -13,9 +14,11 @@ import java.io.IOException;
 public class GitHubCommand extends Commands implements CommandExecutor {
 
     @Command(aliases = { "gh", "github" }, async = true)
-    public String addToGithubCommand(String[] username, IChannel channel) {
+    public String addToGithubCommand(String[] username, IChannel channel, IGuild guild) {
 
-        if (!isInBotSpam(channel)) {
+        if (checkChannel(channel, guild.getChannelsByName("bot-spam"))) {
+            start(channel);
+        } else {
             return null;
         }
 
