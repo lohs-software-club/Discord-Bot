@@ -1,5 +1,6 @@
 package commands;
 
+import sx.blah.discord.handle.impl.obj.Guild;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
@@ -31,28 +32,32 @@ class Commands {
         clearAllButMessageIDInChannelAfterTime(
                 messages.get(messages.size()-1).getLongID(),//get first message in list
                 currentChannel,
-                getBotSpamChannel(currentChannel.getGuild()),
+                currentChannel.getGuild().getChannelsByName("bot-spam"),
                 timeInSeconds
         );
     }
 
-    private void clearAllButMessageIDInChannelAfterTime(Long id, IChannel currentChannel, IChannel channelToClear, Integer timeInSeconds) {
+    private void clearAllButMessageIDInChannelAfterTime(Long id, IChannel currentChannel, List<IChannel> channelToClear, Integer timeInSeconds) {
 
 
         //TODO: make this into a discord message that says something like "this message will self destruct"
         //System.out.println("WAITING SPECIFIED SECONDS...");
 
         //don't do anything if you aren't in the channel specified for clearing
-        if (currentChannel == channelToClear) {
+
+
+        if (checkChannel(currentChannel, channelToClear)) {
 
             //if list of executors isnt empty
             if (!runningExecutors.isEmpty()) {
-                System.out.println("Shutting down open executors");
+                System.out.println("Shutting down open executors...");
 
                 //loop through and shut them all down
-                for (ScheduledExecutorService item : runningExecutors) {
+                //for (ScheduledExecutorService item : runningExecutors) {
+                for (int i = 0; i <= runningExecutors.size()-1; i++) {
+                    System.out.println("shutting down executor:" + runningExecutors.get(i));
 
-                    item.shutdown();
+                    runningExecutors.get(i).shutdownNow();
                 }
             }
 
@@ -63,7 +68,7 @@ class Commands {
 
             newSES.schedule(() -> {
 
-                runningExecutors.remove(newSES);
+                runningExecutors.remove(newSES);//remove self from executors list
                 System.out.println("completing executor:" + newSES);
                 //get the last 50 messages in the channel (as an additional safety measure)
                 List<IMessage> messages = new ArrayList<>(
