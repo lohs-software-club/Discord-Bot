@@ -30,7 +30,7 @@ public class Main {
             handler.registerCommand(new PingPong());
             handler.registerCommand(new RoleCommands());
             handler.registerCommand(new GitHubCommand());
-            handler.registerCommand(new ClearCommand());
+          // handler.registerCommand(new ClearCommand());
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Invalid Tokens");

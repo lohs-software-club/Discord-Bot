@@ -15,7 +15,7 @@ public class PingPong extends Commands implements CommandExecutor {
 
         System.out.println(username.getDisplayName(guild) + " Sent a Ping.");
 
-        endWithDefaultCleanup(channel);
+        endWithSmallCleanup(channel);
         return "Feature!";
 
 
