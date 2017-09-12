@@ -31,7 +31,7 @@ class Commands {
         clearAllButMessageIDInChannelAfterTime(
                 messages.get(messages.size()-1).getLongID(),//get first message in list
                 currentChannel,
-                currentChannel.getGuild().getChannelByID(326480795298693131L),
+                getBotSpamChannel(currentChannel.getGuild()),
                 timeInSeconds
         );
     }
@@ -91,12 +91,16 @@ class Commands {
     //use this for commands that should be limited to only #bot-spam channel
     Boolean isInBotSpam(IChannel channel) {
         //if channel is not #bot-spam, get the bot to just not respond.
-        if (channel != channel.getGuild().getChannelsByName("bot-spam")) {
+        if (channel != getBotSpamChannel(channel.getGuild())) {
             return true;
         } else {
             start(channel);
             return false;
         }
+    }
+
+    IChannel getBotSpamChannel(IGuild guild) {
+        return guild.getChannelsByName("bot-spam").get(0);
     }
 
     //Give feedback to user that bot has started working
