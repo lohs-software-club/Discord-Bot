@@ -7,6 +7,6 @@ import sx.blah.discord.handle.impl.events.ReadyEvent;
 public class Events {
     @EventSubscriber
     public void onReadyEvent(ReadyEvent event) {
-        event.getClient().changePlayingText("with code.");  // Fun message to show bot is online and working.
+        event.getClient().changePlayingText("with code");  // Fun message to show bot is online and working.
     }
 }

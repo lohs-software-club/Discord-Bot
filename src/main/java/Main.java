@@ -1,4 +1,3 @@
-import commands.ClearCommand;
 import commands.GitHubCommand;
 import commands.PingPong;
 import commands.RoleCommands;
@@ -15,11 +14,13 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            String discordToken = args[0];
+            String discordToken = System.getenv("discordToken");
+            String ghToken = System.getenv("githubToken");
+
+            Credentials.setGhToken(ghToken);
+
             // Logging in client
             IDiscordClient client = createClient(discordToken);
-
-            Credentials.setGhToken(args[1]);
 
             // Setting Events listener
             EventDispatcher dispatcher = client.getDispatcher();
@@ -30,7 +31,6 @@ public class Main {
             handler.registerCommand(new PingPong());
             handler.registerCommand(new RoleCommands());
             handler.registerCommand(new GitHubCommand());
-          // handler.registerCommand(new ClearCommand());
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Invalid Tokens");
