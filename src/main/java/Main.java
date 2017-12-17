@@ -14,8 +14,8 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            String discordToken = System.getenv("discordToken");
-            String ghToken = System.getenv("githubToken");
+            String discordToken = System.getenv("DISCORD_TOKEN");
+            String ghToken = System.getenv("GITHUB_TOKEN");
 
             Credentials.setGhToken(ghToken);
 
